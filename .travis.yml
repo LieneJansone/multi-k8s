@@ -1,0 +1,22 @@
+sudo: required
+services:
+ - docker
+
+before_install:
+ - docker build -t lienejansone/react-test -f ./client/Dockerfile.dev ./client
+
+script:
+ - docker run -e CI=true lienejansone/react-test npm test
+
+after_success:
+ - docker build -t lienejansone/multi-client ./client
+ - docker build -t lienejansone/multi-server ./server
+ - docker build -t lienejansone/multi-nginx ./nginx
+ - docker build -t lienejansone/multi-worker ./worker
+ # Push images to dockerhub
+ - echo "$docker_password" | docker login -u "$docker_id" --password-stdin
+ - docker push lienejansone/multi-client
+  -docker push lienejansone/multi-server
+  -docker push lienejansone/multi-nginx
+  -docker push lienejansone/multi-worker
+
