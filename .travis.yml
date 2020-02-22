@@ -16,7 +16,7 @@ after_success:
  # Push images to dockerhub
  - echo "$docker_password" | docker login -u "$docker_id" --password-stdin
  - docker push lienejansone/multi-client
-  -docker push lienejansone/multi-server
-  -docker push lienejansone/multi-nginx
-  -docker push lienejansone/multi-worker
+ - docker push lienejansone/multi-server
+ - docker push lienejansone/multi-nginx
+ - docker push lienejansone/multi-worker
 
